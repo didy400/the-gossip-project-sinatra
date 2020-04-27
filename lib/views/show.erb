@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>Page Potin</title>
+  </head>
+  <body>
+    <h1>Voici la page de citation n°<%= Gossip.all.index(gossip) %></h1>
+        <p>
+          Son auteur : <%= gossip.author %><br/>
+          Le contenu de la citation : "<%= gossip.content %>"
+        </p>
+    <p>Pour revenir à la page des citations : <a href="/">clique ici</a></p>
+  </body>
+</html>

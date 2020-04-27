@@ -2,7 +2,7 @@ require 'csv'
 
 class Gossip
     attr_accessor :author, :content
-    @@all_gossips = []
+    
    
     def initialize (author,content)
         @author= author
@@ -10,17 +10,31 @@ class Gossip
     end
     
     def save
-        CSV.open("./db/gossip.csv", "ab") do |csv|
-          csv << [@author, @content]
-        end
+      File.open("./db/gossip.csv", "ab") do |op| 
+        op.write("#{@author},#{@content}\n")
+        puts "#{@author} dit : #{@content}"
+      end
     end
 
     def self.all
-        @@all_gossips = []
-        CSV.read("./db/gossip.csv").each do |csv_line|
-        @@all_gossips << Gossip.new(csv_line[0], csv_line[1])
+        all_gossips = []
+        CSV.foreach("./db/gossip.csv").each do |row|
+        gossip_temp << Gossip.new(row[0], row[1])
+        all_gossips << gossip_temp
         end
-      return @@all_gossips
+      return all_gossips
     end
 
+    def self.find(id)
+      return self.all[id.to_i]
+    end
+
+    def self.update(author, content, id)
+      row_array = CSV.read('db/gossip.csv')
+      row_array.each.with_index do |row, index| 
+        if (id.to_i + 1 ) == index
+          row_array[index] = [author, content]
+        end
+      end
+    end
 end
