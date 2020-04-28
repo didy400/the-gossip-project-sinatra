@@ -19,8 +19,7 @@ class Gossip
     def self.all
         all_gossips = []
         CSV.foreach("./db/gossip.csv").each do |row|
-        gossip_temp << Gossip.new(row[0], row[1])
-        all_gossips << gossip_temp
+          all_gossips << Gossip.new(row[0], row[1]) 
         end
       return all_gossips
     end
@@ -33,7 +32,7 @@ class Gossip
       row_array = CSV.read('db/gossip.csv')
       row_array.each.with_index do |row, index| 
         if (id.to_i + 1 ) == index
-          row_array[index] = [author, content]
+          row[index] = [author, content]
         end
       end
     end
